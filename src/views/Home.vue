@@ -1,8 +1,9 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
+<Row>
+<div class="home">
     <HelloWorld msg="Welcome to Your Vue.js App" />
   </div>
+</Row>
 </template>
 
 <script>
@@ -27,3 +28,5 @@ export default {
   }
 };
 </script>
+<style lang="less" scoped>
+</style>
