@@ -8,10 +8,10 @@
       </i-col>
       <i-col :xs="16" :sm="16" :md="12" :lg="12">
         <Menu mode="horizontal" :theme="theme1" :active-name="activeName">
-          <menu-item name="1">
-              <router-link to="/">Home</router-link></menu-item>
-          <menu-item name="2">
-                <router-link to="/about">About</router-link>
+          <menu-item name="/">
+              <router-link to="/">首页</router-link></menu-item>
+          <menu-item name="about">
+              <router-link to="/about">管理</router-link>
           </menu-item>
           <Submenu name="3">
               <template slot="title">
@@ -43,9 +43,25 @@ export default {
   name: "Navigate",
   data() {
     return {
-      activeName: "1",
+      activeName: "/",
       theme1: "light"
     };
+  },
+  watch: {
+    $route(to) {
+      const route = to.path;
+      if (route) {
+        const f = route.split("/");
+        for (let i in f) {
+          if (i) {
+            if (f[i]) {
+              this.activeName = f[1];
+              break;
+            }
+          }
+        }
+      }
+    }
   }
 };
 </script>
@@ -56,12 +72,13 @@ export default {
   width: 100%;
   z-index: 9;
   background-color: #fff;
-  box-shadow: 0 0 5px #999
+  box-shadow: 0 0 5px #999;
 }
 a {
   height: 60px;
   display: inline-block;
   color: #333;
+  padding: 0 20px;
   &.router-link-exact-active {
     color: #2d8cf0;
   }

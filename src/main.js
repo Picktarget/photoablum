@@ -9,6 +9,7 @@ import 'iview/dist/styles/iview.css';
 import "vue2-animate/dist/vue2-animate.min.css";
 import error from './assets/error.png';
 import loading from './assets/loading.gif';
+import './assets/css/theme.less';
 
 Vue.use(iView);
 // Vue.use(VueLazyload)

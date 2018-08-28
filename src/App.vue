@@ -31,7 +31,7 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
-.content{
-  padding-top: 65px;
+.content {
+  padding-top: 60px;
 }
 </style>
