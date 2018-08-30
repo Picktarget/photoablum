@@ -52,7 +52,7 @@ export default {
   text-align: left;
   .left {
     float: left;
-    height: 100vh;
+    height: calc(100vh - 60px);
     width: 240px;
     background: #515a6e;
     position: fixed;
@@ -76,10 +76,11 @@ export default {
   .right {
     width: calc(100% - 240px);
     float: left;
-    height: 100vh;
+    height: calc(100vh - 60px);
     position: relative;
     left: 240px;
     padding: 8px;
+    overflow: auto;
   }
 }
 </style>

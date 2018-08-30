@@ -6,9 +6,9 @@
       <Button :size="buttonSize" type="dashed">Dashed</Button>
       <Button :size="buttonSize" type="text">Text</Button>
     </div>
-    <Table height="200" :columns="columns1" :data="data2"></Table>
+    <Table :columns="columns1" :data="data2"></Table>
     <div class="pinfo-box">
-      <Pinfo :total="100" show-sizer show-elevator />
+      <Page :total="100" show-sizer show-elevator />
     </div>
     <div class="clearfix"></div>
   </div>

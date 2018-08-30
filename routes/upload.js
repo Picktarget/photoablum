@@ -2,6 +2,8 @@ var express = require("express");
 var router = express.Router();
 var fs = require("fs");
 var multer = require("multer");
+var cf = require("../utils/commonFunc");
+const moment = require("moment");
 
 var createFolder = function(folder) {
   try {
@@ -22,7 +24,20 @@ var storage = multer.diskStorage({
   },
   filename: function(req, file, cb) {
     // 将保存文件名设置为 字段名 + 时间戳，比如 logo-1478521468943
-    cb(null, file.originalname);
+    // 判断路径下是否有重名文件
+    let filename = uploadFolder + file.originalname;
+    fs.exists(filename, exists => {
+      if (exists) {
+        let t = file.originalname.split(".");
+        const len = t.length;
+        let f_newName = t.slice(0, len - 1).join(".");
+        const mm = moment(Date.now()).format("YYYY-MM-DD-HH-mm-ss");
+        f_newName = f_newName + "-" + mm + "." + t[len - 1];
+        cb(null, f_newName);
+      } else {
+        cb(null, file.originalname);
+      }
+    });
   }
 });
 
@@ -33,24 +48,12 @@ var upload = multer({ storage: storage }).single("file");
 
 /* POST upload img. */
 router.post("/images", function(req, res) {
-  // var file = req.file;
   upload(req, res, function(err) {
     if (err) {
-      res.send({
-        code: "201",
-        msg: "上传失败!",
-        data: null,
-        succcess: false
-      });
+      res.json(cf.msg(301, "上传失败!", null, false));
     } else {
-      res.send({
-        code: "200",
-        msg: "上传成功!",
-        data: { id: "123123" },
-        succcess: true
-      });
+      res.json(cf.msg(200, "上传成功!", req.file.filename, true));
     }
-    // Everything went fine
   });
 });
 module.exports = router;
