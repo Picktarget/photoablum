@@ -30,15 +30,22 @@ export default {
       buttonSize: "default",
       formItem: {
         productionName: "",
-        description: ""
+        description: "",
+        image: []
       }
     };
+  },
+  beforeRouteLeave(to, from, next) {
+    this.$store.commit("CLEAR_IWIMG");
+    next();
   },
   methods: {
     goBack: function() {
       this.$router.go(-1);
     },
     addIW: function() {
+      const image = this.$store.state.iwImage;
+      this.formItem.image = image;
       this.$http.post("http://127.0.0.1:3000/iw/add", this.formItem).then(
         res => {
           console.log(res);

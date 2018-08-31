@@ -9,10 +9,10 @@ router.post("/iw/add", function(req, res, next) {
   Console.log(req.body);
   IW.create(req.body, function(err, post) {
     if (err) {
-      res.send(cf.msg(301, "新增图文失败！", null, false));
+      res.json(cf.msg(301, "新增图文失败！", null, false));
       return next(err);
     } else {
-      res.send(cf.msg(200, "新增图文成功！", post, true));
+      res.json(cf.msg(200, "新增图文成功！", post, true));
     }
   });
 });

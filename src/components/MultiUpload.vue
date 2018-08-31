@@ -49,7 +49,6 @@ export default {
       uploadList: []
     };
   },
-
   methods: {
     handleView(name) {
       this.imgName = name;
@@ -58,6 +57,7 @@ export default {
     handleRemove(file) {
       const fileList = this.$refs.upload.fileList;
       this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+      this.$store.commit("REMOVE_IWIMG", fileList);
     },
     handleError(err, file) {
       this.$Notice.warning({
@@ -66,6 +66,15 @@ export default {
       });
     },
     handleSuccess(res, file) {
+      if (res && res.success) {
+        file.name = res.data;
+        this.$store.commit("UPDATE_IWIMG", res.data);
+      } else {
+        this.$Notice.warning({
+          title: "上传失败",
+          desc: "文件 " + file.name + " 上传失败."
+        });
+      }
       file.url = this.staticUrl + file.name;
     },
     handleFormatError(file) {
@@ -115,7 +124,7 @@ export default {
 
 .demo-upload-list img {
   max-width: 100%;
-  height: 100%;
+  /* height: 100%; */
 }
 
 .demo-upload-list-cover {
