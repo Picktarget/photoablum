@@ -39,6 +39,18 @@
 <script>
 export default {
   name: "MultiUpload",
+  props: {
+    list: Array
+  },
+  watch: {
+    list: function() {
+      const img = this.$store.state.iwImage;
+      if (!img.length) {
+        this.uploadList = img;
+        this.$refs.upload.fileList = [];
+      }
+    }
+  },
   data() {
     return {
       action: "http://127.0.0.1:3000/upload/images",
@@ -64,6 +76,7 @@ export default {
         title: "文件上传错误",
         desc: "文件 " + file.name + " 上传失败."
       });
+      this.uploadList = this.$refs.upload.fileList;
     },
     handleSuccess(res, file) {
       if (res && res.success) {
@@ -76,6 +89,7 @@ export default {
         });
       }
       file.url = this.staticUrl + file.name;
+      this.uploadList = this.$refs.upload.fileList;
     },
     handleFormatError(file) {
       this.$Notice.warning({

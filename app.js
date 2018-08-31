@@ -4,6 +4,20 @@ var logger = require("morgan");
 var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
 // var fs = require("fs");
+var console = require("console");
+var mongoose = require("mongoose");
+mongoose.set("useCreateIndex", true);
+mongoose
+  .connect(
+    "mongodb://localhost:27017/photoablum",
+    { useNewUrlParser: true }
+  )
+  .then(() => {
+    console.log("connect mongoDB success!");
+  })
+  .catch(res => {
+    console.log(res);
+  });
 
 var index = require("./routes/index");
 var users = require("./routes/users");
@@ -36,14 +50,6 @@ app.all("*", function(req, res, next) {
   res.header("Content-Type", "application/json;charset=utf-8");
   next();
 });
-
-// app.get("*", function(req, res) {
-//   var html = fs.readFileSync(
-//     path.resolve(__dirname, "../dist/index.html"),
-//     "utf-8"
-//   );
-//   res.send(html);
-// });
 
 app.use("/", index);
 app.use("/users", users);

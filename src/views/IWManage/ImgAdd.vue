@@ -8,11 +8,11 @@
             <i-input v-model="formItem.description" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入产品描述..."></i-input>
         </FormItem>
         <FormItem>
-            <MultiUpload></MultiUpload>
+            <MultiUpload :list="formItem.image"></MultiUpload>
         </FormItem>
         <FormItem>
             <Button type="primary" @click="addIW">提交</Button>
-            <Button style="margin-left: 8px">取消</Button>
+            <Button style="margin-left: 8px" @click="reset">取消</Button>
             <Button style="margin-left: 8px" type="primary" @click="goBack">返回</Button>
         </FormItem>
     </Form>
@@ -48,12 +48,34 @@ export default {
       this.formItem.image = image;
       this.$http.post("http://127.0.0.1:3000/iw/add", this.formItem).then(
         res => {
-          console.log(res);
+          if (res) {
+            this.$Notice.info({
+              title: "提示",
+              desc: res.body.msg
+            });
+            if (res.body.success) {
+              this.$store.commit("CLEAR_IWIMG");
+              this.reset();
+            }
+          }
         },
         err => {
-          console.log(err);
+          this.$Notice.err({
+            title: "提示",
+            desc: err
+          });
         }
       );
+    },
+    reset: function() {
+      this.$store.commit("CLEAR_IWIMG");
+      for (var name in this.$data.formItem) {
+        if (name === "image") {
+          this.$data.formItem[name] = [];
+        } else {
+          this.$data.formItem[name] = "";
+        }
+      }
     }
   }
 };
